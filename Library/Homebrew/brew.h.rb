@@ -450,7 +450,7 @@ def brew_install
   require 'hardware'
 
   ############################################################ sanity checks
-  case Hardware.cpu_type when :ppc, :dunno
+  case Hardware.cpu_type when :dunno
     abort "Sorry, Homebrew does not support your computer's CPU architecture.\n"+
           "For PPC support, see: http://github.com/sceaga/homebrew/tree/powerpc"
   end
