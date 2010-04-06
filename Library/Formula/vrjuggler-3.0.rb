@@ -10,7 +10,7 @@ class Vrjuggler30 <Formula
   depends_on 'flagpoll'
 
   def install
-    args = ["--prefix=#{prefix}", "--with-boost=#{HOMEBREW_PREFIX}"]
+    args = ["--prefix=#{prefix}", "--with-boost=#{Formula.factory('boost').prefix}"]
 
     ENV['ACLOCAL_FLAGS'] = "-I #{HOMEBREW_PREFIX}/share/aclocal"
     ENV['FLAGPOLL_PATH'] = "#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"

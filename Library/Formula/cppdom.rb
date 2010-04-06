@@ -6,9 +6,10 @@ class Cppdom <Formula
   md5 'ab30e45eb8129e14040020edc5b0b130'
 
   depends_on 'scons'
+  depends_on 'boost'
 
   def install
-    args = ["prefix=#{prefix}", "build_test=no", "var_type=optimized"]
+    args = ["prefix=#{prefix}", "build_test=no", "var_type=optimized", "BoostBaseDir=#{Formula.factory('boost').prefix}/"]
 
     if MACOS_VERSION >= 10.6 and Hardware.is_64_bit?
       args << 'var_arch=x64'
