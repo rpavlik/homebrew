@@ -1,4 +1,5 @@
 require 'formula'
+require 'hardware'
 
 class Cppdom <Formula
   url 'http://downloads.sourceforge.net/project/xml-cppdom/CppDOM/1.0.1/cppdom-1.0.1.tar.gz'
