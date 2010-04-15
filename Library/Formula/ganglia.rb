@@ -9,11 +9,13 @@ class Ganglia <Formula
 
   depends_on 'confuse'
   depends_on 'pcre'
-  #depends_on 'rrdtool'
+  depends_on 'rrdtool'
 
   def patches
     # fixes build on Leopard and newer, which lack kvm.h and its corresponding /dev/ node
     # Patch sent upstream: http://bugzilla.ganglia.info/cgi-bin/bugzilla/show_bug.cgi?id=258
+    # Also, for some reason, having inline or static keywords in gperf generated files
+    # causes missing symbol link errors - manually patch those out for now.
     DATA
   end
 
@@ -27,8 +29,8 @@ class Ganglia <Formula
       "--disable-dependency-tracking",
       "--prefix=#{prefix}",
       "--sbindir=#{prefix}/bin", # brew doesn't do things with prefix/sbin
-      "--with-gexec"
-    #"--with-gmetad"
+      "--with-gexec",
+      "--with-gmetad"
 
     # build and install
     system "make install"
@@ -86,3 +88,67 @@ index 498ed8f..bfa09a1 100644
  
  #include <mach/mach_init.h>
 
+diff --git a/gmetad/type_hash.c b/gmetad/type_hash.c
+index 519513d..3f65efa 100644
+--- a/gmetad/type_hash.c
++++ b/gmetad/type_hash.c
+@@ -46,14 +46,7 @@ struct type_tag;
+ #define MAX_HASH_VALUE 21
+ /* maximum key range = 18, duplicates = 0 */
+ 
+-#ifdef __GNUC__
+-__inline
+-#else
+-#ifdef __cplusplus
+-inline
+-#endif
+-#endif
+-static unsigned int
++unsigned int
+ type_hash (str, len)
+      register const char *str;
+      register unsigned int len;
+@@ -124,12 +117,6 @@ static struct type_tag types[] =
+     {"double", FLOAT}
+   };
+ 
+-#ifdef __GNUC__
+-__inline
+-#ifdef __GNUC_STDC_INLINE__
+-__attribute__ ((__gnu_inline__))
+-#endif
+-#endif
+ struct type_tag *
+ in_type_list (str, len)
+      register const char *str;
+diff --git a/gmetad/xml_hash.c b/gmetad/xml_hash.c
+index 5c21755..04910b3 100644
+--- a/gmetad/xml_hash.c
++++ b/gmetad/xml_hash.c
+@@ -42,13 +42,6 @@ struct xml_tag;
+ #define MAX_HASH_VALUE 44
+ /* maximum key range = 42, duplicates = 0 */
+ 
+-#ifdef __GNUC__
+-__inline
+-#else
+-#ifdef __cplusplus
+-inline
+-#endif
+-#endif
+ static unsigned int
+ xml_hash (str, len)
+      register const char *str;
+@@ -86,12 +79,6 @@ xml_hash (str, len)
+   return len + asso_values[(unsigned char)str[len - 1]] + asso_values[(unsigned char)str[0]];
+ }
+ 
+-#ifdef __GNUC__
+-__inline
+-#ifdef __GNUC_STDC_INLINE__
+-__attribute__ ((__gnu_inline__))
+-#endif
+-#endif
+ struct xml_tag *
+ in_xml_list (str, len)
+      register const char *str;
