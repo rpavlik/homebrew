@@ -28,12 +28,26 @@ class Ganglia <Formula
       "--disable-debug",
       "--disable-dependency-tracking",
       "--prefix=#{prefix}",
-      "--sbindir=#{prefix}/bin", # brew doesn't do things with prefix/sbin
+      "--sbindir=#{bin}", # brew doesn't do things with prefix/sbin
+      "--sysconfdir=#{HOMEBREW_PREFIX}/etc",
       "--with-gexec",
       "--with-gmetad"
 
     # build and install
     system "make install"
+    
+    Dir.chdir "web" do
+    	system "make", "conf.php"
+    	system "make", "version.php"
+    	
+    	inreplace "conf.php", "/usr/bin/rrdtool", "#{HOMEBREW_PREFIX}/bin/rrdtool"
+    end 
+    
+    Dir.chdir "#{prefix}" do
+    	system "bin/gmond -t > etc/gmond.conf"
+    end 
+    
+    # TODO install the web files
   end
 end
 
