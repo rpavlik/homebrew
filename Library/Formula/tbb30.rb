@@ -8,7 +8,7 @@ class Tbb30 <Formula
 
   def install
   	args = ['tbb_build_prefix=BUILDPREFIX']
-  	if MACOS_VERSION >= 10.6 and hardware.is_64_bit?
+  	if MACOS_VERSION >= 10.6 and Hardware.is_64_bit?
   		args << "arch=intel64"
   	else
   		args << "arch=ia32"
