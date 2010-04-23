@@ -4,7 +4,15 @@ class Opencv <Formula
   url 'http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/2.1/OpenCV-2.1.0.tar.bz2'
   homepage 'http://opencv.willowgarage.com'
   md5 '1d71584fb4e04214c0085108f95e24c8'
-
+  head 'https://code.ros.org/svn/opencv/trunk/opencv'
+  depends_on :subversion if MACOS_VERSION < 10.6 and ARGV.include? '--HEAD'
+  def download_strategy
+    if ARGV.include? '--HEAD'
+      SubversionDownloadStrategy
+    else
+      CurlDownloadStrategy
+    end
+  end
   # TODO: support having it installed from the upstream package
   depends_on 'cmake'
 
