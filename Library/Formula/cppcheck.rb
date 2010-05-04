@@ -7,6 +7,6 @@ class Cppcheck <Formula
   md5 '20c495b191a9f4fdd030656ad9d4741d'
 
   def install
-    system "make", "install", "BIN=#{prefix}/bin"
+    system "make", "install", "BIN=#{bin}"
   end
 end
