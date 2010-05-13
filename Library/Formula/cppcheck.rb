@@ -1,12 +1,17 @@
 require 'formula'
 
-class Cppcheck <Formula
+class Cppcheck < Formula
+  url 'http://github.com/danmar/cppcheck/tarball/1.42'
+  homepage 'http://sourceforge.net/apps/mediawiki/cppcheck/index.php?title=Main_Page'
+  md5 'de8ffbd9d02c4ec01047ef7fd9f208cd'
   head 'git://github.com/danmar/cppcheck.git'
-  homepage 'http://cppcheck.wiki.sourceforge.net'
-  url 'http://downloads.sourceforge.net/project/cppcheck/cppcheck/1.42/cppcheck-1.42.tar.bz2'
-  md5 '20c495b191a9f4fdd030656ad9d4741d'
 
   def install
-    system "make", "install", "BIN=#{bin}"
+    # Need to remove "-Wlogical-op" from c++ flags.
+    cxxflags = "-Wall -Wextra -pedantic -Wfloat-equal -Wcast-qual -O2 -DNDEBUG"
+
+    # Pass to make variables.
+    system "make", "BIN=#{bin}", "CXXFLAGS=#{cxxflags}", "install"
+    # Man pages aren't installed, they require docbook schemas which I don't know how to install.
   end
 end
