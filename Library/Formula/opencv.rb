@@ -28,7 +28,7 @@ class Opencv <Formula
   #depends_on 'libtiff'
 
   # Threading
-  depends_on 'tbb30'
+  depends_on 'tbb'
 
   # Very Optional? Pulls in lots of dependencies but maybe not needed unless you're doing video analysis
   # Video analysis requires a bunch more things which we don't have: libgstreamer, libxine, unicap, libdc1394 2.x (or libdc1394 1.x + libraw1394).
