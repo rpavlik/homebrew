@@ -1,7 +1,7 @@
 require 'formula'
 
 class Opencv <Formula
-  url 'http://sourceforge.net/projects/opencvlibrary/files/opencv-unix/2.1/OpenCV-2.1.0.tar.bz2/download'
+  url 'http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/2.1/OpenCV-2.1.0.tar.bz2'
   homepage 'http://opencv.willowgarage.com/wiki/'
   md5 '1d71584fb4e04214c0085108f95e24c8'
   head 'https://code.ros.org/svn/opencv/trunk/opencv'
@@ -66,6 +66,7 @@ class Opencv <Formula
     system "make", "install"
 
   end
+  
     def caveats
       return <<-EOS
   The OpenCV Python module will not work until you edit your PYTHONPATH like so:
