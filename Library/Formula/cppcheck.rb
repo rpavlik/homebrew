@@ -8,7 +8,7 @@ class Cppcheck < Formula
 
   def install
     # Need to remove "-Wlogical-op" from c++ flags.
-    cxxflags = "-Wall -Wextra -pedantic -Wfloat-equal -Wcast-qual -O2 -DNDEBUG"
+    cxxflags = "-Wall -Wextra -Wfloat-equal -Wcast-qual -O2 -DNDEBUG"
 
     # Pass to make variables.
     system "make", "BIN=#{bin}", "CXXFLAGS=#{cxxflags}", "install"

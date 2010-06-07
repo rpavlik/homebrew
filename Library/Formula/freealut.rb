@@ -10,6 +10,7 @@ class Freealut <Formula
     # Adds the OpenAL frameworks to the library list so linking succeeds
     DATA
   end
+  
   def install
   	system "./autogen.sh"
     system "./configure", "--disable-debug", "--disable-dependency-tracking", "--prefix=#{prefix}",  "--mandir=#{man}"
