@@ -199,7 +199,7 @@ class SubversionDownloadStrategy <AbstractDownloadStrategy
   # system svn binary. mplayer.rb uses this to require a svn new enough to
   # understand its externals.
   def svn
-    '/usr/bin/svn'
+	(MACOS_VERSION >= 10.6) ? '/usr/bin/svn' : 'svn'
   end
 end
 
