@@ -12,7 +12,7 @@ class Vrjuggler22 <Formula
   depends_on 'flagpoll'
 
   def install
-    args = ["--prefix=#{prefix}", "--with-boost=#{Formula.factory('boost').prefix}"]
+    args = ["--prefix=#{HOMEBREW_PREFIX}", "--with-boost=#{Formula.factory('boost').prefix}"]
     
     ENV['ACLOCAL_FLAGS'] = "-I #{HOMEBREW_PREFIX}/share/aclocal"
     ENV['FLAGPOLL_PATH'] = "#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"
@@ -29,8 +29,8 @@ class Vrjuggler22 <Formula
 
     system "./autogen.sh"
     system "./configure.pl", *args
-    system "make", "optim"
-    system "make", "install-optim"
+    system "make", "opt-dso", "--prefix=#{prefix}", "DESTDIR=#{prefix}"
+    system "make", "install-opt-dso", "--prefix=#{prefix}", "DESTDIR=#{prefix}"
   end
 
   def caveats
