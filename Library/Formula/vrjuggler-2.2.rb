@@ -1,8 +1,8 @@
 require 'formula'
 
 class Vrjuggler22 <Formula
-#  url 'http://downloads.sourceforge.net/project/vrjuggler/VR%20Juggler/2.2.1/vrjuggler-2.2.1-1-src.tar.bz2'
-#  md5 ''
+  url 'http://vrjuggler.googlecode.com/files/vrjuggler-2.2.2-1-src.tar.bz2'
+  md5 'bb8a57e88318d2f9c1bfc94a33ea3853'
   head 'http://vrjuggler.googlecode.com/svn/juggler/branches/2.2'
   homepage 'http://code.google.com/p/vrjuggler/'
 
