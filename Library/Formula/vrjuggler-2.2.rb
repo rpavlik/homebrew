@@ -10,9 +10,12 @@ class Vrjuggler22 <Formula
   depends_on 'cppdom'
   depends_on 'gmtl'
   depends_on 'flagpoll'
+  depends_on 'freealut'
 
   def install
-    args = ["--prefix=#{prefix}", "--with-boost=#{Formula.factory('boost').prefix}"]
+    args = ["--prefix=#{prefix}",
+      "--with-boost=#{HOMEBREW_PREFIX}",
+      "--with-alut=#{HOMEBREW_PREFIX}"]
     
     ENV['ACLOCAL_FLAGS'] = "-I #{HOMEBREW_PREFIX}/share/aclocal"
     ENV['FLAGPOLL_PATH'] = "#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"
