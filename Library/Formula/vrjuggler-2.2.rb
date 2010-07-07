@@ -32,8 +32,8 @@ class Vrjuggler22 <Formula
 
     system "./autogen.sh"
     system "./configure.pl", *args
-    system "make", "opt-dso", "--prefix=#{prefix}", "DESTDIR=#{prefix}"
-    system "make", "install-opt-dso", "--prefix=#{prefix}", "DESTDIR=#{prefix}"
+    system "make", "optim", "--prefix=#{prefix}", "DESTDIR=#{prefix}"
+    system "make", "install-optim", "--prefix=#{prefix}", "DESTDIR=#{prefix}"
   end
 
   def caveats
