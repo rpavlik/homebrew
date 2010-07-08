@@ -40,7 +40,7 @@ class Vrjuggler22 <Formula
 
     system "./autogen.sh"
     system "./configure.pl", *args
-    #system "make", "optim", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
+    system "make", "optim", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
     system "make", "install-optim", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
   end
 
