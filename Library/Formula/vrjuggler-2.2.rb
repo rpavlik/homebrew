@@ -14,12 +14,12 @@ class Vrjuggler22 <Formula
   depends_on 'freealut'
 
   def install
-    args = ["--prefix=#{HOMEBREW_PREFIX}",
+    args = ["--prefix=/",
       "--with-boost=#{HOMEBREW_PREFIX}",
       "--with-alut=#{HOMEBREW_PREFIX}"]
     
-    ENV['ACLOCAL_FLAGS'] = "-I #{HOMEBREW_PREFIX}/share/aclocal"
-    ENV['FLAGPOLL_PATH'] = "#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"
+    ENV['ACLOCAL_FLAGS'] = "-I #{HOMEBREW_PREFIX}/share/aclocal -I #{prefix}/share/aclocal"
+    ENV['FLAGPOLL_PATH'] = "#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll:#{prefix}/lib/flagpoll:#{prefix}/share/flagpoll"
     ENV['AUTOCONF'] = "autoconf"
     ENV['AUTOHEADER'] = "autoheader"
     ENV['ACLOCAL'] = "aclocal-1.10"
@@ -33,8 +33,8 @@ class Vrjuggler22 <Formula
 
     system "./autogen.sh"
     system "./configure.pl", *args
-    system "make", "optim", "DESTDIR=#{prefix}"
-    system "make", "install-optim", "DESTDIR=#{prefix}"
+    #system "make", "optim", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
+    system "make", "install-optim", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
   end
 
   def caveats
