@@ -39,8 +39,18 @@ class Vrjuggler22 <Formula
     end
 
     system "./autogen.sh"
+    
+    # The prefix set here is immediately written to, so using the keg.
     system "./configure.pl", *args
+    
+    # setting the instprefix variable to put the homebrew prefix as the
+    # libraries' "known root dir", while installing to the keg.
+
+    # Make only the optimized shared libraries
     system "make", "opt-dso", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
+    
+    # Install all available optimized libraries - in this case, only
+    # shared available, static are peacefully ignored.
     system "make", "install-optim", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
   end
 
