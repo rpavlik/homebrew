@@ -18,6 +18,13 @@ class Vrjuggler22 <Formula
       "--with-boost=#{HOMEBREW_PREFIX}",
       "--with-alut=#{HOMEBREW_PREFIX}"]
     
+    # For some reason, juggler fails to build nicely in parallel in any kind
+    # of packinging-like setup
+    ENV.deparallelize()
+    
+    # Make our local aclocal dir before autogen, to be safe and avoid errors
+    system "mkdir -p #{prefix}/share/aclocal"
+    
     ENV['ACLOCAL_FLAGS'] = "-I #{HOMEBREW_PREFIX}/share/aclocal -I #{prefix}/share/aclocal"
     ENV['FLAGPOLL_PATH'] = "#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll:#{prefix}/lib/flagpoll:#{prefix}/share/flagpoll"
     ENV['AUTOCONF'] = "autoconf"
