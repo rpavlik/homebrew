@@ -14,7 +14,7 @@ class Vrjuggler22 <Formula
   depends_on 'freealut'
 
   def install
-    args = ["--prefix=/",
+    args = ["--prefix=#{prefix}",
       "--with-boost=#{HOMEBREW_PREFIX}",
       "--with-alut=#{HOMEBREW_PREFIX}"]
     
