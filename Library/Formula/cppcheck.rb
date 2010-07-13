@@ -10,11 +10,6 @@ class Cppcheck < Formula
   def skip_clean?(path); true end
   
   def install
-    ENV.deparallelize
-    ENV.no_optimization
-    # Need to remove "-Wlogical-op" from c++ flags.
-    #cxxflags = "-Wall -Wextra -Wfloat-equal -Wcast-qual -O2 -DNDEBUG"
-
     # Pass to make variables.
     system "make"
     system "make", "DESTDIR=#{prefix}", "BIN=#{bin}", "install"
