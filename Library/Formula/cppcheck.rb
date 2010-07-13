@@ -8,7 +8,7 @@ class Cppcheck < Formula
 
   # Do not strip binaries, or else it fails to run.
   def skip_clean?(path); true end
-  
+
   def install
     # Pass to make variables.
     system "make"
