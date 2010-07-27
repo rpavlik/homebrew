@@ -1,14 +1,15 @@
 require 'formula'
 
 class GitMultipush <Formula
-  url 'http://git-multipush.googlecode.com/files/git-multipush-1.0.tar.bz2'
+  url 'http://github.com/gavinbeatty/git-multipush/tarball/git-multipush-v2.4.rc2'
   homepage 'http://code.google.com/p/git-multipush/'
-  md5 'ca809d24857c5abe92f870f3a4f2ebe5'
+  version '2.4.rc2'
+  md5 '4af53b87195a29d34f2760842ee2e9c1'
 
   # Not depending on git because people might have it
   # installed through another means
 
   def install
-    system "make", "prefix=#{prefix}", "install"
+    system "make", "VERSION=#{version}", "prefix=#{prefix}", "install"
   end
 end
