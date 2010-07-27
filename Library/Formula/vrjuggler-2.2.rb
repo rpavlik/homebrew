@@ -12,11 +12,13 @@ class Vrjuggler22 <Formula
   depends_on 'gmtl'
   depends_on 'flagpoll'
   depends_on 'freealut'
+  depends_on 'vrpn'
 
   def install
     args = ["--prefix=#{prefix}",
       "--with-boost=#{HOMEBREW_PREFIX}",
-      "--with-alut=#{HOMEBREW_PREFIX}"]
+      "--with-alut=#{HOMEBREW_PREFIX}",
+      "--with-vrpn=#{HOMEBREW_PREFIX}"]
     
     # For some reason, juggler fails to build nicely in parallel in any kind
     # of packinging-like setup
@@ -25,8 +27,8 @@ class Vrjuggler22 <Formula
     # Make our local aclocal dir before autogen, to be safe and avoid errors
     system "mkdir -p #{prefix}/share/aclocal"
     
-    ENV['ACLOCAL_FLAGS'] = "-I #{HOMEBREW_PREFIX}/share/aclocal -I #{prefix}/share/aclocal"
-    ENV['FLAGPOLL_PATH'] = "#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll:#{prefix}/lib/flagpoll:#{prefix}/share/flagpoll"
+    ENV['ACLOCAL_FLAGS'] = "-I #{prefix}/share/aclocal -I #{HOMEBREW_PREFIX}/share/aclocal"
+    ENV['FLAGPOLL_PATH'] = "#{prefix}/lib/flagpoll:#{prefix}/share/flagpoll:#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"
     ENV['AUTOCONF'] = "autoconf"
     ENV['AUTOHEADER'] = "autoheader"
     ENV['ACLOCAL'] = "aclocal-1.10"
@@ -47,11 +49,11 @@ class Vrjuggler22 <Formula
     # libraries' "known root dir", while installing to the keg.
 
     # Make only the optimized shared libraries
-    system "make", "opt-dso", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
+    system "make", "opt-dso", "instprefix=#{HOMEBREW_PREFIX}"
     
     # Install all available optimized libraries - in this case, only
     # shared available, static are peacefully ignored.
-    system "make", "install-optim", "instprefix=#{HOMEBREW_PREFIX}", "DESTDIR=#{prefix}"
+    system "make", "install-optim", "instprefix=#{HOMEBREW_PREFIX}"
   end
 
   def caveats
