@@ -8,6 +8,7 @@ class Osgbullet <Formula
   depends_on 'cmake'
   depends_on 'openscenegraph'
   depends_on 'osgworks'
+  depends_on 'bullet'
 
   def install
     system "cmake . #{std_cmake_parameters}"
