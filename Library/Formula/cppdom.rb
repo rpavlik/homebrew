@@ -8,6 +8,7 @@ class Cppdom <Formula
 
   depends_on 'scons'
   depends_on 'boost'
+  depends_on 'flagpoll'
 
   def install
     args = ["prefix=#{prefix}", "build_test=no", "var_type=optimized", "BoostBaseDir=#{HOMEBREW_PREFIX}/"]
@@ -18,6 +19,6 @@ class Cppdom <Formula
       args << 'var_arch=ia32'
     end
 
-    system "scons", "install", *args
+    system "#{HOMEBREW_PREFIX}/bin/scons", "install", *args
   end
 end

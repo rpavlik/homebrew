@@ -7,9 +7,9 @@ class Opencv <Formula
   head 'https://code.ros.org/svn/opencv/trunk/opencv'
   version '2.1.0'
 
-  depends_on :subversion if MACOS_VERSION < 10.6 and ARGV.include? '--HEAD'
+  depends_on :subversion if MACOS_VERSION < 10.6 and ARGV.build_head?
   def download_strategy
-    if ARGV.include? '--HEAD'
+    if ARGV.build_head?
       SubversionDownloadStrategy
     else
       CurlDownloadStrategy
