@@ -32,8 +32,10 @@ class Vrjuggler22 <Formula
     ENV['AUTOCONF'] = "autoconf"
     ENV['AUTOHEADER'] = "autoheader"
     ENV['ACLOCAL'] = "aclocal-1.10"
-    ENV['CC'] = "gcc"
-    ENV['CXX'] = "g++"
+    if not ARGV.include? '--use-llvm'
+	    ENV['CC'] = "gcc"
+	    ENV['CXX'] = "g++"
+	end
 
     # Make the default Java location correct
     inreplace 'modules/tweek/java/tweek-base.sh.in' do |contents| 
