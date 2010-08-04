@@ -10,7 +10,7 @@ class Cppdom <Formula
   depends_on 'boost'
 
   def install
-    args = ["prefix=#{prefix}", "build_test=no", "var_type=optimized", "BoostBaseDir=#{Formula.factory('boost').prefix}/"]
+    args = ["prefix=#{prefix}", "build_test=no", "var_type=optimized", "BoostBaseDir=#{HOMEBREW_PREFIX}/"]
 
     if MACOS_VERSION >= 10.6 and Hardware.is_64_bit?
       args << 'var_arch=x64'
