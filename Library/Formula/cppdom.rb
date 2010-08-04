@@ -19,6 +19,6 @@ class Cppdom <Formula
       args << 'var_arch=ia32'
     end
 
-    system "scons", "install", *args
+    system "#{HOMEBREW_PREFIX}/bin/scons", "install", *args
   end
 end
