@@ -8,6 +8,7 @@ class Cppdom <Formula
 
   depends_on 'scons'
   depends_on 'boost'
+  depends_on 'flagpoll'
 
   def install
     args = ["prefix=#{prefix}", "build_test=no", "var_type=optimized", "BoostBaseDir=#{HOMEBREW_PREFIX}/"]
