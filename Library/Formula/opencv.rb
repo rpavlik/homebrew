@@ -1,21 +1,12 @@
 require 'formula'
 
 class Opencv <Formula
-  url 'http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/2.1/OpenCV-2.1.0.tar.bz2'
+  # Use head, don't install 2.1.0 due to a *massive* memory leak:
+  # https://code.ros.org/trac/opencv/ticket/253
+  head 'https://code.ros.org/svn/opencv/trunk/opencv', :using => :svn
   homepage 'http://opencv.willowgarage.com/wiki/'
-  md5 '1d71584fb4e04214c0085108f95e24c8'
-  head 'https://code.ros.org/svn/opencv/trunk/opencv'
-  version '2.1.0'
+  md5 ''
 
-  depends_on :subversion if MACOS_VERSION < 10.6 and ARGV.build_head?
-  def download_strategy
-    if ARGV.build_head?
-      SubversionDownloadStrategy
-    else
-      CurlDownloadStrategy
-    end
-  end
-  # TODO: support having it installed from the upstream package
   depends_on 'cmake'
   depends_on 'pkg-config'
 
@@ -35,7 +26,7 @@ class Opencv <Formula
   # We can leave this disabled for now.
   # Maybe we could add a flag?
   #depends_on 'ffmpeg'
-  
+
   # There are other optional dependencies but they don't currently exist in Homebrew.
 
 
@@ -66,13 +57,13 @@ class Opencv <Formula
     system "make", "install"
 
   end
-  
+
     def caveats
       return <<-EOS
   The OpenCV Python module will not work until you edit your PYTHONPATH like so:
-  
+
     export PYTHONPATH="#{HOMEBREW_PREFIX}/lib/python2.6/site-packages/:$PYTHONPATH"
-  
+
   To make this permanent, put it in your shell's profile (e.g. ~/.profile).
     EOS
   end
