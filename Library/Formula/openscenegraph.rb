@@ -5,8 +5,6 @@ class Openscenegraph <Formula
   homepage 'http://www.openscenegraph.org/'
   md5 ''
   
-  aka 'osg'
-
  depends_on 'cmake'
  depends_on 'pcre'
  depends_on 'ffmpeg'
@@ -15,7 +13,6 @@ class Openscenegraph <Formula
  depends_on 'openexr'
  
   def install
-#    system "./configure", "--disable-debug", "--disable-dependency-tracking", "--prefix=#{prefix}"
    system "cmake . #{std_cmake_parameters} -DBUILD_OSG_WRAPPERS=ON -DCMAKE_OSX_ARCHITECTURES=i386"
     system "make install"
   end
