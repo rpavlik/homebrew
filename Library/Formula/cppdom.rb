@@ -21,7 +21,7 @@ class Cppdom <Formula
 
     system "#{HOMEBREW_PREFIX}/bin/scons", "install", *args
   end
-  
+
   def patches
   	# Don't install to prefix/lib64
   	DATA
