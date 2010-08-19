@@ -67,6 +67,9 @@ class Ganglia <Formula
 
     # Install the web files
     (share + "ganglia").install "web"
+
+    # Install man pages
+    man1.install Dir['mans/*']
   end
 
   def caveats; <<-EOS.undent
