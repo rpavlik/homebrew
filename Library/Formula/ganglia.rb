@@ -5,8 +5,6 @@ class Ganglia <Formula
   homepage 'http://ganglia.sourceforge.net/'
   md5 '6aa5e2109c2cc8007a6def0799cf1b4c'
 
-  # TODO: gmetad (requries rrdtool) does not build right now
-
   depends_on 'confuse'
   depends_on 'pcre'
   depends_on 'rrdtool'
