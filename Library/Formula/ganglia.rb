@@ -32,7 +32,7 @@ class Ganglia <Formula
     system "/bin/sh ./autogen.sh --download"
 
     Dir.chdir "libmetrics" do
-      ENV['PROJECT'] = "ganglia"
+      ENV['PROJECT'] = "libmetrics"
       system "/bin/sh ../autogen.sh --download"
     end
 
