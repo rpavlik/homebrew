@@ -23,6 +23,25 @@ class Ganglia <Formula
     # ENV var needed to confirm putting the config in the prefix until 3.2
     ENV['GANGLIA_ACK_SYSCONFDIR'] = '1'
 
+    # Grab the standard autogen.sh and run it twice,
+    # to update libtool
+    curl "http://buildconf.git.sourceforge.net/git/gitweb.cgi?p=buildconf/buildconf;a=blob_plain;f=autogen.sh;hb=HEAD", "-o", "autogen.sh"
+    ENV['LIBTOOLIZE'] = "/usr/bin/glibtoolize"
+
+    ENV['PROJECT'] = "ganglia"
+    system "/bin/sh ./autogen.sh --download"
+
+    Dir.chdir "libmetrics" do
+      ENV['PROJECT'] = "ganglia"
+      system "/bin/sh ../autogen.sh --download"
+    end
+
+    # Regenerate libtool, etc - now using the autogen.sh script above
+    #system "autoreconf -fiv"
+    #Dir.chdir "libmetrics" do
+    #  system "autoreconf -fiv"
+    #end
+
     # configure
     system "./configure",
       "--disable-debug",
@@ -35,19 +54,32 @@ class Ganglia <Formula
 
     # build and install
     system "make install"
-    
+
     Dir.chdir "web" do
-    	system "make", "conf.php"
-    	system "make", "version.php"
-    	
-    	inreplace "conf.php", "/usr/bin/rrdtool", "#{HOMEBREW_PREFIX}/bin/rrdtool"
-    end 
-    
+      system "make", "conf.php"
+      system "make", "version.php"
+
+      inreplace "conf.php", "/usr/bin/rrdtool", "#{HOMEBREW_PREFIX}/bin/rrdtool"
+    end
+
+    # Generate the default config file
     Dir.chdir "#{prefix}" do
-    	system "bin/gmond -t > etc/gmond.conf"
-    end 
-    
-    # TODO install the web files
+      system "bin/gmond -t > #{HOMEBREW_PREFIX}/etc/gmond.conf" unless File.exists? "#{HOMEBREW_PREFIX}/etc/gmond.conf"
+    end
+
+    # Install the web files
+    (share + "ganglia").install "web"
+  end
+
+  def caveats; <<-EOS.undent
+    If you did not have the config file
+    #{HOMEBREW_PREFIX}/etc/gmond.conf
+    one was created for you.
+
+    You might want to copy
+    #{prefix}/share/ganglia/web/* to someplace
+    served by a PHP-capable web server.
+    EOS
   end
 end
 

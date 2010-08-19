@@ -8,7 +8,7 @@ class Confuse <Formula
   depends_on 'pkg-config'
 
   def install
-    system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}"
+    system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}", "--disable-examples"
     system "make install"
   end
 end
