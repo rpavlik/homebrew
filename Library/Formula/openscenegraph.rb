@@ -14,12 +14,11 @@ class Openscenegraph <Formula
   depends_on 'openexr'
 
   def install
-    if MACOS_VERSION >= 10.6 and Hardware.is_64_bit?
-      system "cmake . #{std_cmake_parameters} -DBUILD_OSG_WRAPPERS=ON -DCMAKE_OSX_ARCHITECTURES=x86_64 -DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio -DOSG_WINDOWING_SYSTEM=Cocoa"
-    else
-      system "cmake . #{std_cmake_parameters} -DBUILD_OSG_WRAPPERS=ON -DCMAKE_OSX_ARCHITECTURES=i386"
-    end
-    system "make install"
+    Dir.mkdir "build"
+    Dir.chdir "build" do
+	  system "cmake . #{std_cmake_parameters} -DBUILD_OSG_WRAPPERS=ON " +  snow_leopard_64? ? "-DCMAKE_OSX_ARCHITECTURES=x86_64 -DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio -DOSG_WINDOWING_SYSTEM=Cocoa" : "-DCMAKE_OSX_ARCHITECTURES=i386"
+	  system "make install"
+	end
   end
 
 end
