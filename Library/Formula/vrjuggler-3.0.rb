@@ -12,6 +12,11 @@ class Vrjuggler30 <Formula
   depends_on 'vrpn'
 
   def install
+    if Formula.factory('vrjuggler-2.2').installed?
+      ohai 'Unlinking vrjuggler-2.2 before installing vrjuggler-3.0'
+      system "brew", "unlink", "vrjuggler-2.2"
+    end
+
     args = ["--prefix=#{prefix}",
       "--with-boost=#{HOMEBREW_PREFIX}",
       "--with-alut=#{HOMEBREW_PREFIX}",
