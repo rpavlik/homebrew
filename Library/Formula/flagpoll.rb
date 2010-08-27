@@ -14,7 +14,7 @@ class Flagpoll <Formula
   def install
     system("mkdir -p #{HOMEBREW_PREFIX}/lib/flagpoll")
     system("mkdir -p #{HOMEBREW_PREFIX}/share/flagpoll")
-    
+
     system "./setup.py", "install", "--prefix=#{prefix}"
   end
 end
