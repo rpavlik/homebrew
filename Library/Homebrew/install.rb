@@ -54,7 +54,7 @@ end
 def install f
   show_summary_heading = false
 
-  f.deps.each do |dep|
+  f.deps.uniq.each do |dep|
     dep = Formula.factory dep
     if dep.keg_only?
       ENV.prepend 'LDFLAGS', "-L#{dep.lib}"
@@ -85,6 +85,7 @@ def install f
           puts "to copy the diff to the clipboard."
         end
 
+        ENV['HOMEBREW_DEBUG_INSTALL'] = f.name
         interactive_shell
         nil
       elsif ARGV.include? '--help'
@@ -95,6 +96,7 @@ def install f
         beginning=Time.now
         f.install
         FORMULA_META_FILES.each do |file|
+          next if File.directory? file
           FileUtils.mv "#{file}.txt", file rescue nil
           f.prefix.install file rescue nil
           (f.prefix+file).chmod 0644 rescue nil
@@ -146,6 +148,13 @@ def install f
       end
     end
 
+    # Check for possibly misplaced folders
+    if (f.prefix+'man').exist?
+      opoo 'A top-level "man" folder was found.'
+      puts "Homebrew requires that man pages live under share."
+      puts 'This can often be fixed by passing "--mandir=#{man}" to configure.'
+    end
+
     # link from Cellar to Prefix
     begin
       Keg.new(f.prefix).link
@@ -153,7 +162,11 @@ def install f
       onoe "The linking step did not complete successfully"
       puts "The package built, but is not symlinked into #{HOMEBREW_PREFIX}"
       puts "You can try again using `brew link #{f.name}'"
-      ohai e, e.backtrace if ARGV.debug?
+      if ARGV.debug?
+        ohai e, e.backtrace
+      else
+        onoe e
+      end
       show_summary_heading = true
     end
   end
