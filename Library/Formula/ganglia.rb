@@ -46,7 +46,7 @@ class Ganglia <Formula
       "--disable-dependency-tracking",
       "--prefix=#{prefix}",
       "--sbindir=#{bin}", # brew doesn't do things with prefix/sbin
-      "--sysconfdir=#{HOMEBREW_PREFIX}/etc",
+      "--sysconfdir=#{etc}",
       "--with-gexec",
       "--with-gmetad"
 
@@ -62,7 +62,7 @@ class Ganglia <Formula
 
     # Generate the default config file
     Dir.chdir "#{prefix}" do
-      system "bin/gmond -t > #{HOMEBREW_PREFIX}/etc/gmond.conf" unless File.exists? "#{HOMEBREW_PREFIX}/etc/gmond.conf"
+      system "bin/gmond -t > #{etc}/gmond.conf" unless File.exists? "#{etc}/gmond.conf"
     end
 
     # Install the web files
@@ -74,7 +74,7 @@ class Ganglia <Formula
 
   def caveats; <<-EOS.undent
     If you did not have the config file
-    #{HOMEBREW_PREFIX}/etc/gmond.conf
+    #{etc}/gmond.conf
     one was created for you.
 
     You might want to copy
