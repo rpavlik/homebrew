@@ -8,6 +8,6 @@ class Gmtl <Formula
   depends_on 'scons'
 
   def install
-    system "#{HOMEBREW_PREFIX}/bin/scons", "install", "prefix=#{prefix}"
+    system "scons", "install", "prefix=#{prefix}"
   end
 end
