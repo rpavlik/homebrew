@@ -33,7 +33,7 @@ index ef38778..97a9ea3 100644
 --- a/SConstruct
 +++ b/SConstruct
 @@ -170,9 +170,6 @@ if not SConsAddons.Util.hasHelpFlag():
- 
+
        inst_paths = copy.copy(base_inst_paths)
        inst_paths['libPrefix'] = pj(inst_paths['flagpollPrefix'], 'lib')
 -      if "x64" == combo["arch"]:
