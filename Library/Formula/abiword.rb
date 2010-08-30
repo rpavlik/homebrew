@@ -12,7 +12,7 @@ class Abiword <Formula
   depends_on 'pango'
   depends_on 'cairo'
   depends_on 'fribidi'
-  depends_on 'libwpd'
+  depends_on 'libwpd' => :recommended
   depends_on 'imagemagick'
 #  depends_on 'libwpg'
 #  depends_on 'libwmf'
