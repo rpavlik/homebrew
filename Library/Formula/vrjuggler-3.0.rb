@@ -12,6 +12,7 @@ class Vrjuggler30 <Formula
   depends_on 'flagpoll'
   depends_on 'freealut' => :recommended
   depends_on 'vrpn' => :recommended
+  #depends_on 'omniorb' => :optional
 
   def install
     if Formula.factory('vrjuggler-2.2').installed?
@@ -28,6 +29,11 @@ class Vrjuggler30 <Formula
 
     if Formula.factory("vrpn").installed?
       args << "--with-vrpn=#{HOMEBREW_PREFIX}"
+    end
+
+    if Formula.factory("omniorb").installed?
+      args << "--with-cxx-orb=omniORB4"
+      args << "--with-cxx-orb-root=#{HOMEBREW_PREFIX}"
     end
 
     # For some reason, juggler fails to build nicely in parallel in any kind
