@@ -4,9 +4,7 @@ class Omniorb <Formula
   url 'http://omniorb.sourceforge.net/releases/omniORB-4.1.4.tar.gz'
   homepage 'http://omniorb.sourceforge.net/'
   md5 '1f6070ff9b6339876976d61981eeaa6a'
-  
-  # WORK IN PROGRESS
-  
+
   depends_on 'pkg-config' => :optional
   depends_on 'openssl' => :optional
 
@@ -21,14 +19,16 @@ class Omniorb <Formula
     if Formula.factory("openssl").installed?
       args << "--with-openssl=#{Formula.factory('openssl').prefix}"
     end
-    
+
     # MacPorts did it
     inreplace "configure", ",prefix='$PYTHON_PREFIX'", ""
     inreplace "configure", ",prefix='$PYTHON_EXEC_PREFIX'", ""
-    
-    
+
+
     system "./configure", *args
-                          
+
+    system "make"
+
     system "make install"
   end
 end
