@@ -10,8 +10,8 @@ class Vrjuggler30 <Formula
   depends_on 'cppdom'
   depends_on 'gmtl'
   depends_on 'flagpoll'
-  depends_on 'freealut'
-  depends_on 'vrpn'
+  depends_on 'freealut' => :recommended
+  depends_on 'vrpn' => :recommended
 
   def install
     if Formula.factory('vrjuggler-2.2').installed?
@@ -20,9 +20,15 @@ class Vrjuggler30 <Formula
     end
 
     args = ["--prefix=#{prefix}",
-      "--with-boost=#{HOMEBREW_PREFIX}",
-      "--with-alut=#{HOMEBREW_PREFIX}",
-      "--with-vrpn=#{HOMEBREW_PREFIX}"]
+      "--with-boost=#{HOMEBREW_PREFIX}"]
+
+    if Formula.factory("freealut").installed?
+      args << "--with-alut=#{HOMEBREW_PREFIX}"
+    end
+
+    if Formula.factory("vrpn").installed?
+      args << "--with-vrpn=#{HOMEBREW_PREFIX}"
+    end
 
     # For some reason, juggler fails to build nicely in parallel in any kind
     # of packinging-like setup
