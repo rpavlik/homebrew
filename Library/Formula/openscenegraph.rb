@@ -12,11 +12,28 @@ class Openscenegraph <Formula
   depends_on 'jasper'
   depends_on 'jpeg'
   depends_on 'openexr'
+  #depends_on 'collada' => :optional
 
   def install
+  	args = ["..", "-DCMAKE_INSTALL_PREFIX='#{prefix}'", "-DCMAKE_BUILD_TYPE=None", "-Wno-dev", "-DBUILD_OSG_WRAPPERS=ON", "-D]
+  	if snow_leopard_64?
+  		args << "-DCMAKE_OSX_ARCHITECTURES=x86_64", "-DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio", "-DOSG_WINDOWING_SYSTEM=Cocoa"
+  	else
+  		args << "-DCMAKE_OSX_ARCHITECTURES=i386"
+  	end
+
+  	if Formula.factory('collada').installed?
+  		args << "-DCOLLADA_BOOST_FILESYSTEM_LIBRARY=#{HOMEBREW_PREFIX}/lib/libboost_filesystem-mt.dylib"
+  		args << "-DCOLLADA_BOOST_SYSTEM_LIBRARY=#{HOMEBREW_PREFIX}/lib/libboost_system-mt.dylib"
+  		args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include"
+  		args << "-DCOLLADA_DYNAMIC_LIBRARY=#{HOMEBREW_PREFIX}/lib/Collada14Dom.dylib"
+  		args << "-DCOLLADA_PCRECPP_LIBRARY=#{HOMEBREW_PREFIX}/lib/libpcrecpp.dylib"
+  		args << "-DCOLLADA_PCRE_LIBRARY=#{HOMEBREW_PREFIX}/lib/libpcre.dylib"
+  	end
+
     Dir.mkdir "build"
     Dir.chdir "build" do
-	  system "cmake . #{std_cmake_parameters} -DBUILD_OSG_WRAPPERS=ON " +  snow_leopard_64? ? "-DCMAKE_OSX_ARCHITECTURES=x86_64 -DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio -DOSG_WINDOWING_SYSTEM=Cocoa" : "-DCMAKE_OSX_ARCHITECTURES=i386"
+	  system "cmake", *args
 	  system "make install"
 	end
   end
