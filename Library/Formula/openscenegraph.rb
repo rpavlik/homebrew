@@ -15,9 +15,11 @@ class Openscenegraph <Formula
   #depends_on 'collada' => :optional
 
   def install
-  	args = ["..", "-DCMAKE_INSTALL_PREFIX='#{prefix}'", "-DCMAKE_BUILD_TYPE=None", "-Wno-dev", "-DBUILD_OSG_WRAPPERS=ON", "-D]
+  	args = ["..", "-DCMAKE_INSTALL_PREFIX='#{prefix}'", "-DCMAKE_BUILD_TYPE=None", "-Wno-dev", "-DBUILD_OSG_WRAPPERS=ON", "-DBUILD_DOCUMENTATION=ON"]
   	if snow_leopard_64?
-  		args << "-DCMAKE_OSX_ARCHITECTURES=x86_64", "-DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio", "-DOSG_WINDOWING_SYSTEM=Cocoa"
+  		args << "-DCMAKE_OSX_ARCHITECTURES=x86_64"
+  		args << "-DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio"
+  		args << "-DOSG_WINDOWING_SYSTEM=Cocoa"
   	else
   		args << "-DCMAKE_OSX_ARCHITECTURES=i386"
   	end
