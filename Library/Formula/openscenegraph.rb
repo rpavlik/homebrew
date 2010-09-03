@@ -24,7 +24,7 @@ class Openscenegraph <Formula
   		args << "-DCMAKE_OSX_ARCHITECTURES=i386"
   	end
 
-  	if Formula.factory('collada').installed?
+  	if Formula.factory('collada').installed? and Formula.factory('pcre').installed? and Formula.factory('boost').installed?
   		args << "-DCOLLADA_BOOST_FILESYSTEM_LIBRARY=#{HOMEBREW_PREFIX}/lib/libboost_filesystem-mt.dylib"
   		args << "-DCOLLADA_BOOST_SYSTEM_LIBRARY=#{HOMEBREW_PREFIX}/lib/libboost_system-mt.dylib"
   		args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include"
