@@ -16,10 +16,10 @@ class Vrjuggler22 <Formula
   #depends_on 'omniorb' => :optional
 
   def install
-    if Formula.factory('vrjuggler-3.0').installed?
-      ohai 'Unlinking vrjuggler-3.0 before installing vrjuggler-2.2'
-      system "brew", "unlink", "vrjuggler-3.0"
-    end
+    #if Formula.factory('vrjuggler-3.0').installed?
+    #  ohai 'Unlinking vrjuggler-3.0 before installing vrjuggler-2.2'
+    #  system "brew", "unlink", "vrjuggler-3.0"
+    #end
 
     args = ["--prefix=#{prefix}",
       "--with-boost=#{HOMEBREW_PREFIX}"]
