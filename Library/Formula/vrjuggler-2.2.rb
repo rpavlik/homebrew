@@ -45,7 +45,8 @@ class Vrjuggler22 <Formula
     system "mkdir -p #{prefix}/share/aclocal"
 
     ENV['ACLOCAL_FLAGS'] = "-I #{prefix}/share/aclocal -I #{HOMEBREW_PREFIX}/share/aclocal"
-    ENV['FLAGPOLL_PATH'] = "#{prefix}/lib/flagpoll:#{prefix}/share/flagpoll"
+    ENV['FLAGPOLL_PATH'] = "#{prefix}/lib/flagpoll:#{prefix}/share/flagpoll:#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"
+
     ENV['AUTOCONF'] = "autoconf"
     ENV['AUTOHEADER'] = "autoheader"
     ENV['ACLOCAL'] = "aclocal-1.10"
