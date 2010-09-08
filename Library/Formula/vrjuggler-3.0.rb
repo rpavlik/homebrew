@@ -42,22 +42,20 @@ class Vrjuggler30 <Formula
     ENV.deparallelize()
 
     # Make our local aclocal dir before autogen, to be safe and avoid errors
-    system "mkdir -p #{prefix}/share/aclocal"
+    system "mkdir -p #{share}/aclocal"
 
-    ENV['ACLOCAL_FLAGS'] = "-I #{prefix}/share/aclocal -I #{HOMEBREW_PREFIX}/share/aclocal"
-    ENV['FLAGPOLL_PATH'] = "#{prefix}/lib/flagpoll:#{prefix}/share/flagpoll:#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"
+    ENV['ACLOCAL_FLAGS'] = "-I #{share}/aclocal -I #{HOMEBREW_PREFIX}/share/aclocal"
+    ENV['FLAGPOLL_PATH'] = "#{lib}/flagpoll:#{share}/flagpoll:#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"
     ENV['AUTOCONF'] = "autoconf"
     ENV['AUTOHEADER'] = "autoheader"
     ENV['ACLOCAL'] = "aclocal-1.10"
-    if not ARGV.include? '--use-llvm'
+    if not (ENV['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
       ENV['CC'] = "gcc"
       ENV['CXX'] = "g++"
     end
 
     # Make the default Java location correct
-    inreplace 'modules/tweek/java/tweek-base.sh.in' do |contents|
-      contents.gsub! /\/usr\/java/, '/usr'
-    end
+    inreplace 'modules/tweek/java/tweek-base.sh.in', /\/usr\/java/, '/usr'
 
     system "./autogen.sh"
 
