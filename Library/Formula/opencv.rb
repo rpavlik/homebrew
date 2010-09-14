@@ -48,9 +48,9 @@ class Opencv <Formula
 	# configure
 	if MACOS_VERSION <= 10.5
 	  # Cocoa gui in 2.1.0 not functional on Leopard according to release notes
-      system "cmake . #{std_cmake_parameters} -DWITH_TBB=ON -DBUILD_TESTS=OFF -DWITH_CARBON=ON -DWITH_QUICKTIME=ON"
+      system "cmake .  -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} -DWITH_TBB=ON -DBUILD_TESTS=OFF -DWITH_CARBON=ON -DWITH_QUICKTIME=ON"
     else
-      system "cmake . #{std_cmake_parameters} -DWITH_TBB=ON -DBUILD_TESTS=OFF"
+      system "cmake .  -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} -DWITH_TBB=ON -DBUILD_TESTS=OFF"
     end
 
 #   system "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} ."
