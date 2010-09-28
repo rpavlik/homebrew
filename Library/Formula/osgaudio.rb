@@ -14,7 +14,7 @@ class Osgaudio <Formula
   def install
     #system "./configure", "--disable-debug", "--disable-dependency-tracking",
     #                      "--prefix=#{prefix}"
-    args = [".", "-FMOD_INCLUDE_DIR=/Developer/FMOD/api/inc", "-FMOD_LIBRARY=/Developer/FMOD/api/lib/libfmodex.dylib"]
+    args = [".", "-DFMOD_INCLUDE_DIR=/Developer/FMOD/api/inc", "-DFMOD_LIBRARY=/Developer/FMOD/api/lib/libfmodex.dylib"]
     system "cmake", *args
     system "make install"
   end
