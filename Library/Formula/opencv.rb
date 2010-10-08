@@ -32,6 +32,10 @@ class Opencv <Formula
 
   # There are other optional dependencies but they don't currently exist in Homebrew.
 
+  def options
+    [['--build32', 'Force a 32-bit build.']]
+  end
+
 
   # Bug: it still builds its own libpng, jasper, tiff, etc
   def install
@@ -50,7 +54,9 @@ class Opencv <Formula
 	  # Cocoa gui in 2.1.0 not functional on Leopard according to release notes
       system "cmake .  -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} -DWITH_TBB=ON -DBUILD_TESTS=OFF -DWITH_CARBON=ON -DWITH_QUICKTIME=ON"
     else
-      system "cmake .  -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} -DWITH_TBB=ON -DBUILD_TESTS=OFF"
+      config = "cmake .  -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} -DWITH_TBB=ON -DBUILD_TESTS=OFF"
+      config += " -DOPENCV_EXTRA_C_FLAGS='-arch i386 -m32'" if ARGV.include? '--build32'
+      system config
     end
 
 #   system "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} ."
