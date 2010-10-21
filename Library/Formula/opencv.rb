@@ -13,24 +13,58 @@ class Opencv <Formula
   depends_on 'cmake' => :build
   depends_on 'pkg-config' => :build
 
-  depends_on 'libtiff' => :optional
-  depends_on 'jasper'  => :optional
-  depends_on 'tbb'     => :optional
+  # TODO: for some reason, even with these installed, it builds its own copy.
+  # This might not be bad, though - matched build parameters and static linking
+  # this way.
+  #depends_on 'libpng'
+  #depends_on 'jasper'
+  #depends_on 'jpeg'
+  #depends_on 'libtiff'
 
-  # Can also depend on ffmpeg, but this pulls in a lot of extra stuff that
-  # you don't need unless you're doing video analysis, and some of it isn't
-  # in Homebrew anyway.
+  # Threading
+  depends_on 'tbb'
+
+  # Very Optional? Pulls in lots of dependencies but maybe not needed unless you're doing video analysis
+  # Video analysis requires a bunch more things which we don't have: libgstreamer, libxine, unicap, libdc1394 2.x (or libdc1394 1.x + libraw1394).
+  # We can leave this disabled for now.
+  # Maybe we could add a flag?
+  #depends_on 'ffmpeg'
+
+  # There are other optional dependencies but they don't currently exist in Homebrew.
 
   def options
     [['--build32', 'Force a 32-bit build.']]
   end
 
+
+  # Bug: it still builds its own libpng, jasper, tiff, etc
   def install
-    makefiles = "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} ."
-    makefiles += " -DOPENCV_EXTRA_C_FLAGS='-arch i386 -m32'" if ARGV.include? '--build32'
-    system makefiles
+
+# potentially useful or needed options:
+#      '-DCMAKE_CXX_COMPILER="/usr/bin/g++-4.0"',
+#      '-DCMAKE_C_COMPILER="/usr/bin/gcc-4.0"',
+#      '-DWITH_PNG=ON',
+#      '-DWITH_JPEG=ON',
+#      '-DWITH_JASPER=ON',
+#      '-DWITH_TIFF=ON',
+#      '-DOPENCV_BUILD_3RDPARTY_LIBS=OFF']
+
+	# configure
+	if MACOS_VERSION <= 10.5
+	  # Cocoa gui in 2.1.0 not functional on Leopard according to release notes
+      system "cmake .  -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} -DWITH_TBB=ON -DBUILD_TESTS=OFF -DWITH_CARBON=ON -DWITH_QUICKTIME=ON"
+    else
+      config = "cmake .  -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} -DWITH_TBB=ON -DBUILD_TESTS=OFF"
+      config += " -DOPENCV_EXTRA_C_FLAGS='-arch i386 -m32'" if ARGV.include? '--build32'
+      system config
+    end
+
+#   system "cmake -G 'Unix Makefiles' -DCMAKE_INSTALL_PREFIX:PATH=#{prefix} ."
+
+    # build
     system "make"
-    system "make install"
+    system "make", "install"
+
   end
 
   def caveats; <<-EOS.undent

@@ -10,6 +10,8 @@ class Libwpd <Formula
 
   def install
     system "./configure", "--prefix=#{prefix}", "--disable-debug", "--disable-dependency-tracking"
+	system "make"
+	system "make -C docs"
     system "make install"
   end
 end

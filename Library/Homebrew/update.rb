@@ -1,8 +1,9 @@
 class RefreshBrew
+  RPAVLIK_REPO_URL = "http://github.com/rpavlik/homebrew.git"
   REPOSITORY_URL   = "http://github.com/mxcl/homebrew.git"
   INIT_COMMAND     = "git init"
   CHECKOUT_COMMAND = "git checkout -q master"
-  UPDATE_COMMAND   = "git pull #{REPOSITORY_URL} master"
+  UPDATE_COMMAND   = "git pull #{RPAVLIK_REPO_URL} master; git pull #{REPOSITORY_URL} master"
   REVISION_COMMAND = "git log -l -1 --pretty=format:%H 2> /dev/null"
   GIT_UP_TO_DATE   = "Already up-to-date."
 
