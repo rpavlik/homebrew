@@ -11,11 +11,11 @@ class XercesC28 <Formula
 
 
   def install
-	srcdir = Dir.getwd + "/src"
+	srcdir = Dir.getwd
 	Dir.chdir 'src/xercesc' do
-	  ENV["XERCESCROOT"] = "#{prefix}"
+	  ENV["XERCESCROOT"] = "#{srcdir}"
 	  ENV.deparallelize
-	  args = ["-pmacosx","-P", "#{prefix}","-nnative", "-z", "-I#{srcdir}"]
+	  args = ["-p", "macosx","-P", "#{prefix}","-n", "native", "-z", "-I#{srcdir}/src"]
 	  if snow_leopard_64?
 		args << "-b"
 		args << "64"
