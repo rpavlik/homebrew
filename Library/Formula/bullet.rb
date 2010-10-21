@@ -1,10 +1,10 @@
 require 'formula'
 
 class Bullet <Formula
-  head 'http://bullet.googlecode.com/svn/tags/bullet-2.75', :using => :svn
+  head 'http://bullet.googlecode.com/svn/tags/bullet-2.76', :using => :svn
   homepage 'http://bullet.googlecode.com'
   md5 ''
-  version '2.75'
+  version '2.76'
 
   depends_on 'cmake'
 
