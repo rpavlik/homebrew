@@ -98,9 +98,18 @@ class Formula
 
   # if the dir is there, but it's empty we consider it not installed
   def installed?
-    return prefix.children.length > 0
+    return installed_prefix.children.length > 0
   rescue
     return false
+  end
+
+  def installed_prefix
+    head_prefix = HOMEBREW_CELLAR+@name+'HEAD'
+    if @version == 'HEAD' || head_prefix.directory?
+      head_prefix
+    else
+      prefix
+    end
   end
 
   def path
@@ -208,13 +217,34 @@ class Formula
     end
   end
 
-  # we don't have a std_autotools variant because autotools is a lot less
-  # consistent and the standard parameters are more memorable
-  # really Homebrew should determine what works inside brew() then
-  # we could add --disable-dependency-tracking when it will work
+  # Standard parameters for CMake builds.
+  # Using Build Type "None" tells cmake to use our CFLAGS,etc. settings.
+  # Setting it to Release would ignore our flags.
+  # Note: there isn't a std_autotools variant because autotools is a lot
+  # less consistent and the standard parameters are more memorable.
   def std_cmake_parameters
-    # The None part makes cmake use the environment's CFLAGS etc. settings
     "-DCMAKE_INSTALL_PREFIX='#{prefix}' -DCMAKE_BUILD_TYPE=None -Wno-dev"
+  end
+
+  def fails_with_llvm msg="", data=nil
+    return unless (ENV['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
+
+    build = data.delete :build rescue nil
+    msg = "(No specific reason was given)" if msg.empty?
+
+    opoo "LLVM was requested, but this formula is reported as not working with LLVM:"
+    puts msg
+    puts "Tested with LLVM build #{build}" unless build == nil
+    puts
+
+    if ARGV.force?
+      puts "Continuing anyway. If this works, let us know so we can update the\n"+
+           "formula to remove the warning."
+    else
+      puts "Continuing with GCC 4.2 instead.\n"+
+           "(Use `brew install --force #{name}` to force use of LLVM.)"
+      ENV.gcc_4_2
+    end
   end
 
   def self.class_s name
@@ -243,6 +273,15 @@ class Formula
 
   def self.aliases
     Dir["#{HOMEBREW_REPOSITORY}/Library/Aliases/*"].map{ |f| File.basename f }.sort
+  end
+
+  def self.resolve_alias name
+    aka = HOMEBREW_REPOSITORY+"Library/Aliases/#{name}"
+    if aka.file?
+      aka.realpath.basename('.rb').to_s
+    else
+      name
+    end
   end
 
   def self.factory name
@@ -279,27 +318,6 @@ class Formula
 
   def external_deps
     self.class.external_deps
-  end
-
-  def fails_with_llvm msg="", data=nil
-    return unless (ENV['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
-
-    build = data.delete :build rescue nil
-    msg = "(No specific reason was given)" if msg.empty?
-
-    opoo "LLVM was requested, but this formula is reported as not working with LLVM:"
-    puts msg
-    puts "Tested with LLVM build #{build}" unless build == nil
-    puts
-
-    if ARGV.force?
-      puts "Continuing anyway. If this works, let us know so we can update the\n"+
-           "formula to remove the warning."
-    else
-      puts "Continuing with GCC 4.2 instead.\n"+
-           "(Use `brew install --force ...` to force use of LLVM.)"
-      ENV.gcc_4_2
-    end
   end
 
 protected
@@ -519,8 +537,10 @@ EOF
         case value
         when :python, :perl, :ruby, :jruby
           @external_deps[value] << key
-        when :optional, :recommended
+        when :optional, :recommended, :build
           @deps << key
+        else
+          raise "Unsupported dependency type #{value}"
         end
       when Symbol
         opoo "#{self.name} -- #{name}: Using symbols for deps is deprecated; use a string instead"
