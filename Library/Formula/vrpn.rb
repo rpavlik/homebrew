@@ -1,20 +1,31 @@
 require 'formula'
 
 class Vrpn <Formula
-  # We'll use this again when the below commit is merged
-  url 'git://git.cs.unc.edu/vrpn.git', :revison => 'a91a057cb7fee27b482b3c8253d0c4e24a96817f'
-  #url 'git://github.com/rpavlik/vrpn.git', :revision => '03fada7a988f7e182f16'
-  version '07.26.3'
-  head 'git://git.cs.unc.edu/vrpn.git'
+  url 'git://git.cs.unc.edu/vrpn.git', :tag => 'version_07.28'
+  version '07.28'
   homepage 'http://vrpn.org'
 
-  depends_on 'cmake'
+  depends_on 'cmake' => :build
+
+  def options
+    [['--clients', 'Build client apps and tests.']]
+  end
 
   def install
+    args = [ "#{std_cmake_parameters}" ]
+
+    if ARGV.include? '--clients'
+      args << "-DVRPN_BUILD_CLIENTS:BOOL=ON"
+    else
+      args << "-DVRPN_BUILD_CLIENTS:BOOL=OFF"
+    end
+
+    args << ".."
+
     Dir.mkdir "build"
     Dir.chdir "build" do
-	  system "cmake .. #{std_cmake_parameters}"
+      system "cmake", *args
       system "make install"
-	end
+    end
   end
 end
