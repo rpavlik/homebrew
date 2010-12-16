@@ -46,9 +46,9 @@ class Vrjuggler30 <Formula
 
     ENV['ACLOCAL_FLAGS'] = "-I #{share}/aclocal -I #{HOMEBREW_PREFIX}/share/aclocal"
     ENV['FLAGPOLL_PATH'] = "#{lib}/flagpoll:#{share}/flagpoll:#{HOMEBREW_PREFIX}/lib/flagpoll:#{HOMEBREW_PREFIX}/share/flagpoll"
-    ENV['AUTOCONF'] = "autoconf"
-    ENV['AUTOHEADER'] = "autoheader"
-    ENV['ACLOCAL'] = "aclocal-1.10"
+    ENV['AUTOCONF'] = "/usr/bin/autoconf"
+    ENV['AUTOHEADER'] = "/usr/bin/autoheader"
+    ENV['ACLOCAL'] = "/usr/bin/aclocal-1.10"
     if not (ENV['HOMEBREW_USE_LLVM'] or ARGV.include? '--use-llvm')
       ENV['CC'] = "gcc"
       ENV['CXX'] = "g++"
