@@ -57,8 +57,6 @@ class Vrjuggler30 <Formula
     # Make the default Java location correct
     inreplace 'modules/tweek/java/tweek-base.sh.in', /\/usr\/java/, '/usr'
 
-    system "./autogen.sh"
-
     # The prefix set here is immediately written to, so using the keg.
     system "./configure.pl", *args
 
