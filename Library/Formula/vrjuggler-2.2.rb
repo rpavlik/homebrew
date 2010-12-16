@@ -15,6 +15,15 @@ class Vrjuggler22 <Formula
   depends_on 'vrpn' => :recommended
   #depends_on 'omniorb' => :optional
 
+  def patches
+    p = {}
+    if ARGV.build_head?
+      # Fix upstream issue 20 by merging updated doozer++ into source tree
+      p[:p0] = "https://gist.github.com/raw/743796/50d430037abba4766574ea8ced604f47574467f6/gistfile1.txt"
+    end
+    return p
+  end
+
   def install
     #if Formula.factory('vrjuggler-3.0').installed?
     #  ohai 'Unlinking vrjuggler-3.0 before installing vrjuggler-2.2'
