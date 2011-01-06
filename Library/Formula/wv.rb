@@ -5,11 +5,17 @@ class Wv <Formula
   homepage 'http://wvware.sourceforge.net/'
   sha256 'a3a367062e894770fc3ef63bbf7e285cb025253f972fa899c16931f741e856ea'
 
-  depends_on "libpng"
-  
+  depends_on 'glib'
+  depends_on 'libgsf'
+  depends_on 'libpng'
+  depends_on 'libwmf'
+  depends_on 'libxml2'
+
   def install
     system "./configure", "--disable-debug", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}", "--with-png=#{Formula.factory('libpng').prefix}"
+                          "--prefix=#{prefix}", "--mandir=#{man}"
+    system "make"
+    ENV.deparallelize
     system "make install"
   end
 end
