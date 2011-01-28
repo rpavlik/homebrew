@@ -24,6 +24,10 @@ class Vrjuggler22 <Formula
     return p
   end
 
+  def options
+    [['--with-debug', 'Build debug and release libraries.']]
+  end
+
   def install
     #if Formula.factory('vrjuggler-3.0').installed?
     #  ohai 'Unlinking vrjuggler-3.0 before installing vrjuggler-2.2'
@@ -73,12 +77,18 @@ class Vrjuggler22 <Formula
     # setting the instprefix variable to put the homebrew prefix as the
     # libraries' "known root dir", while installing to the keg.
 
-    # Make only the optimized shared libraries
-    system "make", "opt-dso", "instprefix=#{HOMEBREW_PREFIX}"
+    # build debug libraries if requested
+    if ARGV.include? '--with-debug'
+      # First make the optimized libraries, then make the debug libraries
+      system "make", "opt-dso", "instprefix=#{HOMEBREW_PREFIX}"
+      system "make", "dbg-dso", "instprefix=#{HOMEBREW_PREFIX}"
 
-    # Install all available optimized libraries - in this case, only
-    # shared available, static are peacefully ignored.
-    system "make", "install-optim", "instprefix=#{HOMEBREW_PREFIX}"
+      system "make", "install", "instprefix=#{HOMEBREW_PREFIX}"
+    else
+      # Make only the optimized libraries
+      system "make", "opt-dso", "instprefix=#{HOMEBREW_PREFIX}"
+      system "make", "install-optim", "instprefix=#{HOMEBREW_PREFIX}"
+    end
   end
 
   def caveats
