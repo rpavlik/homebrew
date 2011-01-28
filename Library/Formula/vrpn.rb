@@ -7,9 +7,13 @@ class Vrpn <Formula
   homepage 'http://vrpn.org'
 
   depends_on 'cmake' => :build
+  depends_on 'doxygen' if ARGV.include? '--docs'
 
   def options
-    [['--clients', 'Build client apps and tests.']]
+    [
+      ['--clients', 'Build client apps and tests.'],
+      ['--docs', 'Build doxygen-based API documentation']
+    ]
   end
 
   def install
@@ -27,6 +31,11 @@ class Vrpn <Formula
       args << ".."
 
       system "cmake", *args
+
+      if ARGV.include? '--docs'
+        system "make doc"
+      end
+
       system "make install"
     end
   end
