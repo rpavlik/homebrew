@@ -6,6 +6,7 @@ class Vrpn <Formula
   version '07.28'
   homepage 'http://vrpn.org'
 
+  depends_on 'libusb' # for HID support
   depends_on 'cmake' => :build
   depends_on 'doxygen' if ARGV.include? '--docs'
 
