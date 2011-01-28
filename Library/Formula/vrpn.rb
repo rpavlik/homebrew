@@ -2,6 +2,7 @@ require 'formula'
 
 class Vrpn <Formula
   url 'git://git.cs.unc.edu/vrpn.git', :tag => 'version_07.28'
+  head 'git://github.com/rpavlik/vrpn.git'
   version '07.28'
   homepage 'http://vrpn.org'
 
