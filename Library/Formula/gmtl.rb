@@ -9,6 +9,7 @@ class Gmtl <Formula
   depends_on 'scons' => :build
   def patches
     # build assumes that Python to be used is in a framework, which isn't always true
+	# https://sourceforge.net/tracker/?func=detail&aid=3172856&group_id=43735&atid=437247
     "https://gist.github.com/raw/811405/fix-gmtl-build.diff"
   end
 
