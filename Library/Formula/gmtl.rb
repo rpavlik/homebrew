@@ -7,6 +7,10 @@ class Gmtl <Formula
   md5 '018c2cce3c87ad63509481b1eb144387'
 
   depends_on 'scons' => :build
+  def patches
+    # build assumes that Python to be used is in a framework, which isn't always true
+    "https://gist.github.com/raw/811405/fix-gmtl-build.diff"
+  end
 
   def install
     system "scons", "install", "prefix=#{prefix}"
