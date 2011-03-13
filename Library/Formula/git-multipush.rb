@@ -1,6 +1,6 @@
 require 'formula'
 
-class GitMultipush <Formula
+class GitMultipush < Formula
   url 'http://github.com/gavinbeatty/git-multipush/tarball/git-multipush-v2.4.rc2'
   homepage 'http://code.google.com/p/git-multipush/'
   version '2.4.rc2'
