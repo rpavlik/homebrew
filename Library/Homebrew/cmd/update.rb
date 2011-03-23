@@ -30,11 +30,12 @@ class RefreshBrew
   UPDATED_EXAMPLE  = %r{^\s+#{example_regexp}}
   DELETED_EXAMPLE  = %r{^\s+delete mode \d+ #{example_regexp}$}
 
-  attr_reader :added_formulae, :updated_formulae, :deleted_formulae, :initial_revision
+  attr_reader :added_formulae, :updated_formulae, :deleted_formulae, :installed_formulae
   attr_reader :added_examples, :updated_examples, :deleted_examples
+  attr_reader :initial_revision
 
   def initialize
-    @added_formulae, @updated_formulae, @deleted_formulae = [], [], []
+    @added_formulae, @updated_formulae, @deleted_formulae, @installed_formulae = [], [], [], []
     @added_examples, @updated_examples, @deleted_examples = [], [], []
     @initial_revision = self.current_revision
   end
@@ -74,6 +75,9 @@ class RefreshBrew
     @added_examples.sort!
     @updated_examples.sort!
     @deleted_examples.sort!
+    @installed_formulae = HOMEBREW_CELLAR.children.
+      select{ |pn| pn.directory? }.
+      map{ |pn| pn.basename.to_s }.sort
 
     output.strip != GIT_UP_TO_DATE
   end
@@ -118,12 +122,12 @@ class RefreshBrew
     ## Deleted Formulae
     if deleted_formulae?
       ohai "The following formulae were removed:"
-      puts_columns deleted_formulae
+      puts_columns deleted_formulae, installed_formulae
     end
     ## Updated Formulae
     if pending_formulae_changes?
       ohai "The following formulae were updated:"
-      puts_columns updated_formulae
+      puts_columns updated_formulae, installed_formulae
     else
       puts "No formulae were updated."
     end
