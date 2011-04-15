@@ -18,19 +18,17 @@ class Vrpn < Formula
   end
 
   def install
+    args = std_cmake_parameters.split
+
+    if ARGV.include? '--clients'
+      args << "-DVRPN_BUILD_CLIENTS:BOOL=ON"
+    else
+      args << "-DVRPN_BUILD_CLIENTS:BOOL=OFF"
+    end
+    args << ".."
+
     Dir.mkdir "build"
     Dir.chdir "build" do
-      args = [ "-DCMAKE_BUILD_TYPE=Release",
-        "-DCMAKE_INSTALL_PREFIX='#{prefix}'",
-        "-DBUILD_TESTING=OFF" ]
-
-      if ARGV.include? '--clients'
-        args << "-DVRPN_BUILD_CLIENTS:BOOL=ON"
-      else
-        args << "-DVRPN_BUILD_CLIENTS:BOOL=OFF"
-      end
-      args << ".."
-
       system "cmake", *args
 
       if ARGV.include? '--docs'
