@@ -2,12 +2,14 @@ Homebrew
 ========
 Features and usage are [summarized on the homepage][homepage].
 
+This is a [fork adding some PowerPC support][ppcfork], so it will update from
+that fork by default. (If you'd like to change this, tweak `Library/Homebrew/update.rb`)
 
 Quick Install to /usr/local
 ---------------------------
 [This script][gist] will prompt for confirmation before it does anything:
 
-    ruby -e "$(curl -fsSL https://gist.github.com/raw/323731/install_homebrew.rb)"
+    ruby -e "$(curl -fsSLk https://gist.github.com/raw/1004648/install_ppc_homebrew.rb)"
 
 Afterwards, [install Xcode][xcode].
 
@@ -45,6 +47,7 @@ I'm [Max Howell][mxcl] and I'm a splendid chap.
 
 
 [homepage]:http://mxcl.github.com/homebrew
+[ppcfork]:http://github.com/sceaga/homebrew/tree/powerpc
 [gist]:http://gist.github.com/323731
 [xcode]:http://developer.apple.com/technologies/xcode.html
 [install]:http://wiki.github.com/mxcl/homebrew/installation
