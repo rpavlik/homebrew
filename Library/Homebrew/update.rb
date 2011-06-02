@@ -1,8 +1,8 @@
 class RefreshBrew
-  REPOSITORY_URL   = "http://github.com/mxcl/homebrew.git"
+  REPOSITORY_URL   = "http://github.com/sceaga/homebrew.git"
   INIT_COMMAND     = "git init"
-  CHECKOUT_COMMAND = "git checkout -q master"
-  UPDATE_COMMAND   = "git pull #{REPOSITORY_URL} master"
+  CHECKOUT_COMMAND = "git checkout -q powerpc"
+  UPDATE_COMMAND   = "git pull #{REPOSITORY_URL} powerpc"
   REVISION_COMMAND = "git log -l -1 --pretty=format:%H 2> /dev/null"
   GIT_UP_TO_DATE   = "Already up-to-date."
 
