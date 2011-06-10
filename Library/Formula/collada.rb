@@ -14,8 +14,8 @@ class Collada < Formula
     system "make install"
   end
   def patches
-  	# Fix build of minizip: quoting arguments to cmake's add_definitions doesn't work the way they thought it did.
-  	return DATA
+    # Fix build of minizip: quoting arguments to cmake's add_definitions doesn't work the way they thought it did.
+    return DATA
   end
 end
 
