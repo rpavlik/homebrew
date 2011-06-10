@@ -16,29 +16,29 @@ class Openscenegraph < Formula
   depends_on 'collada' => :optional
 
   def install
-  	args = ["..", "-DCMAKE_INSTALL_PREFIX='#{prefix}'", "-DCMAKE_BUILD_TYPE=None", "-Wno-dev", "-DBUILD_OSG_WRAPPERS=ON", "-DBUILD_DOCUMENTATION=ON"]
-  	if snow_leopard_64?
-  		args << "-DCMAKE_OSX_ARCHITECTURES=x86_64"
-  		args << "-DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio"
-  		args << "-DOSG_WINDOWING_SYSTEM=Cocoa"
-  	else
-  		args << "-DCMAKE_OSX_ARCHITECTURES=i386"
-  	end
+    args = ["..", "-DCMAKE_INSTALL_PREFIX='#{prefix}'", "-DCMAKE_BUILD_TYPE=None", "-Wno-dev", "-DBUILD_OSG_WRAPPERS=ON", "-DBUILD_DOCUMENTATION=ON"]
+    if snow_leopard_64?
+      args << "-DCMAKE_OSX_ARCHITECTURES=x86_64"
+      args << "-DOSG_DEFAULT_IMAGE_PLUGIN_FOR_OSX=imageio"
+      args << "-DOSG_WINDOWING_SYSTEM=Cocoa"
+    else
+      args << "-DCMAKE_OSX_ARCHITECTURES=i386"
+    end
 
-  	if Formula.factory('collada').installed?
-		args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include"
-  	end
+    if Formula.factory('collada').installed?
+      args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include"
+    end
 
     Dir.mkdir "build"
     Dir.chdir "build" do
-	  system "cmake", *args
-	  system "make install"
-	end
+      system "cmake", *args
+      system "make install"
+    end
   end
 
   def patches
-  	# The mini-Boost finder in FindCOLLADA doesn't find our boost, so fix it.
-  	return DATA
+    # The mini-Boost finder in FindCOLLADA doesn't find our boost, so fix it.
+    return DATA
   end
 
 end
