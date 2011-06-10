@@ -1,5 +1,4 @@
 require 'formula'
-require 'hardware'
 
 class Tbb < Formula
   url 'http://threadingbuildingblocks.org/uploads/78/166/3.0%20update%206/tbb30_174oss_src.tgz'
@@ -15,6 +14,6 @@ class Tbb < Formula
 
     system "make", *args
     lib.install Dir['build/BUILDPREFIX_release/*.dylib']
-	include.install Dir['include/tbb']
+    include.install 'include/tbb'
   end
 end

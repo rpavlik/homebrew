@@ -65,7 +65,7 @@ class Ganglia < Formula
       #{etc}/gmond.conf
 
     You might want to copy these someplace served by a PHP-capable web server:
-      #{share}/ganglia/web/*
+      #{share}/ganglia/web/* to someplace
     EOS
   end
 end
