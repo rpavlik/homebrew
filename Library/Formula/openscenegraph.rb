@@ -1,9 +1,9 @@
 require 'formula'
 
-class Openscenegraph <Formula
-  url 'http://www.openscenegraph.org/downloads/stable_releases/OpenSceneGraph-2.8.3/source/OpenSceneGraph-2.8.3.zip'
+class Openscenegraph < Formula
+  url 'http://www.openscenegraph.org/svn/osg/OpenSceneGraph/tags/OpenSceneGraph-2.8.5/', :using => :svn
+  version '2.8.5'
   homepage 'http://www.openscenegraph.org/'
-  md5 'dc43b9161555c4eab7f5a678dd4e01ab'
 
   depends_on 'cmake'
   depends_on 'pcre'
@@ -12,7 +12,8 @@ class Openscenegraph <Formula
   depends_on 'jasper'
   depends_on 'jpeg'
   depends_on 'openexr'
-  #depends_on 'collada' => :optional
+  depends_on 'wget'
+  depends_on 'collada' => :optional
 
   def install
   	args = ["..", "-DCMAKE_INSTALL_PREFIX='#{prefix}'", "-DCMAKE_BUILD_TYPE=None", "-Wno-dev", "-DBUILD_OSG_WRAPPERS=ON", "-DBUILD_DOCUMENTATION=ON"]
@@ -24,13 +25,8 @@ class Openscenegraph <Formula
   		args << "-DCMAKE_OSX_ARCHITECTURES=i386"
   	end
 
-  	if Formula.factory('collada').installed? and Formula.factory('pcre').installed? and Formula.factory('boost').installed?
-  		args << "-DCOLLADA_BOOST_FILESYSTEM_LIBRARY=#{HOMEBREW_PREFIX}/lib/libboost_filesystem-mt.dylib"
-  		args << "-DCOLLADA_BOOST_SYSTEM_LIBRARY=#{HOMEBREW_PREFIX}/lib/libboost_system-mt.dylib"
-  		args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include"
-  		args << "-DCOLLADA_DYNAMIC_LIBRARY=#{HOMEBREW_PREFIX}/lib/Collada14Dom.dylib"
-  		args << "-DCOLLADA_PCRECPP_LIBRARY=#{HOMEBREW_PREFIX}/lib/libpcrecpp.dylib"
-  		args << "-DCOLLADA_PCRE_LIBRARY=#{HOMEBREW_PREFIX}/lib/libpcre.dylib"
+  	if Formula.factory('collada').installed?
+		args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include"
   	end
 
     Dir.mkdir "build"
@@ -40,4 +36,33 @@ class Openscenegraph <Formula
 	end
   end
 
+  def patches
+  	# The mini-Boost finder in FindCOLLADA doesn't find our boost, so fix it.
+  	return DATA
+  end
+
 end
+
+__END__
+diff --git a/CMakeModules/FindCOLLADA.cmake b/CMakeModules/FindCOLLADA.cmake
+index 5af53fe..d2369ef 100644
+--- a/CMakeModules/FindCOLLADA.cmake
++++ b/CMakeModules/FindCOLLADA.cmake
+@@ -224,7 +224,7 @@ FIND_LIBRARY(COLLADA_STATIC_LIBRARY_DEBUG
+     )
+
+     FIND_LIBRARY(COLLADA_BOOST_FILESYSTEM_LIBRARY
+-        NAMES libboost_filesystem boost_filesystem
++        NAMES libboost_filesystem boost_filesystem boost_filesystem-mt
+         PATHS
+         ${COLLADA_DOM_ROOT}/external-libs/boost/lib/${COLLADA_BUILDNAME}
+         ${COLLADA_DOM_ROOT}/external-libs/boost/lib/mingw
+@@ -238,7 +238,7 @@ FIND_LIBRARY(COLLADA_STATIC_LIBRARY_DEBUG
+     )
+
+     FIND_LIBRARY(COLLADA_BOOST_SYSTEM_LIBRARY
+-        NAMES libboost_system boost_system
++        NAMES libboost_system boost_system boost_system-mt
+         PATHS
+         ${COLLADA_DOM_ROOT}/external-libs/boost/lib/${COLLADA_BUILDNAME}
+         ${COLLADA_DOM_ROOT}/external-libs/boost/lib/mingw
