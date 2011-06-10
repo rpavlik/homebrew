@@ -6,14 +6,16 @@ class Openscenegraph < Formula
   homepage 'http://www.openscenegraph.org/'
 
   depends_on 'cmake'
-  depends_on 'pcre'
-  depends_on 'ffmpeg'
-  depends_on 'gdal'
-  depends_on 'jasper'
   depends_on 'jpeg'
-  depends_on 'openexr'
   depends_on 'wget'
+  depends_on 'ffmpeg' => :optional
+  depends_on 'gdal' => :optional
+  depends_on 'jasper' => :optional
+  depends_on 'openexr' => :optional
   depends_on 'collada' => :optional
+  depends_on 'dcmtk' => :optional
+  depends_on 'poppler' => :optional
+  depends_on 'librsvg' => :optional
 
   def install
     args = ["..", "-DCMAKE_INSTALL_PREFIX='#{prefix}'", "-DCMAKE_BUILD_TYPE=None", "-Wno-dev", "-DBUILD_OSG_WRAPPERS=ON", "-DBUILD_DOCUMENTATION=ON"]
