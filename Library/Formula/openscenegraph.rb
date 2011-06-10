@@ -14,7 +14,6 @@ class Openscenegraph < Formula
   depends_on 'openexr' => :optional
   depends_on 'collada' => :optional
   depends_on 'dcmtk' => :optional
-  depends_on 'poppler' => :optional
   depends_on 'librsvg' => :optional
 
   def install
