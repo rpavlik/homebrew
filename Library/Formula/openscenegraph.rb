@@ -14,7 +14,6 @@ class Openscenegraph < Formula
   depends_on 'openexr' => :optional
   depends_on 'collada' => :optional
   depends_on 'dcmtk' => :optional
-  depends_on 'poppler' => :optional
   depends_on 'librsvg' => :optional
 
   def install
@@ -28,7 +27,7 @@ class Openscenegraph < Formula
     end
 
     if Formula.factory('collada').installed?
-      args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include/collada-dom/1.4"
+      args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include/collada-dom"
     end
 
     Dir.mkdir "build"
