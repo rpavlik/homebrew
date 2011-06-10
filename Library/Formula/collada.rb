@@ -1,7 +1,7 @@
 require 'formula'
 
-class Collada <Formula
-  url 'http://voxel.dl.sourceforge.net/project/collada-dom/Collada%20DOM/Collada%20DOM%202.3/collada_dom-2.3.1-src.tgz'
+class Collada < Formula
+  url 'http://downloads.sourceforge.net/project/collada-dom/Collada%20DOM/Collada%20DOM%202.3/collada_dom-2.3.1-src.tgz'
   homepage 'http://www.collada.org/mediawiki/index.php/Portal:COLLADA_DOM'
   md5 'a74d19c1187806a713cec90c2f0f692c'
 
