@@ -27,7 +27,7 @@ class Openscenegraph < Formula
     end
 
     if Formula.factory('collada').installed?
-      args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include/collada-dom/1.4"
+      args << "-DCOLLADA_INCLUDE_DIR=#{HOMEBREW_PREFIX}/include/collada-dom"
     end
 
     Dir.mkdir "build"
