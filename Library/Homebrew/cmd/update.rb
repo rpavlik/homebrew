@@ -14,7 +14,6 @@ end
 class RefreshBrew
   RPAVLIK_REPO_URL = "http://github.com/rpavlik/homebrew.git"
   REPOSITORY_URL   = "http://github.com/mxcl/homebrew.git"
-  INIT_COMMAND     = "git init"
   CHECKOUT_COMMAND = "git checkout -q master"
   UPDATE_COMMAND   = "git pull #{RPAVLIK_REPO_URL} master; git pull #{REPOSITORY_URL} master"
   REVISION_COMMAND = "git rev-parse HEAD"
@@ -41,7 +40,14 @@ class RefreshBrew
         safe_system CHECKOUT_COMMAND
         @initial_revision = read_revision
       else
-        safe_system INIT_COMMAND
+        begin
+          safe_system "git init"
+          safe_system "git fetch #{REPOSITORY_URL}"
+          safe_system "git reset FETCH_HEAD"
+        rescue Exception
+          safe_system "rm -rf .git"
+          raise
+        end
       end
       execute(UPDATE_COMMAND)
       @current_revision = read_revision
@@ -71,7 +77,7 @@ class RefreshBrew
 
         @installed_formulae = HOMEBREW_CELLAR.children.
           select{ |pn| pn.directory? }.
-          map{ |pn| pn.basename.to_s }.sort
+          map{ |pn| pn.basename.to_s }.sort if HOMEBREW_CELLAR.directory?
 
         return true
       end
