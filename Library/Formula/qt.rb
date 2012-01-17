@@ -2,11 +2,11 @@ require 'formula'
 require 'hardware'
 
 class Qt < Formula
-  url 'http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.7.3.tar.gz'
-  md5 '49b96eefb1224cc529af6fe5608654fe'
+  url 'http://get.qt.nokia.com/qt/source/qt-everywhere-opensource-src-4.8.0.tar.gz'
+  md5 'e8a5fdbeba2927c948d9f477a6abe904'
   homepage 'http://qt.nokia.com/'
-  bottle 'https://downloads.sourceforge.net/project/machomebrew/Bottles/qt-4.7.3-bottle.tar.gz'
-  bottle_sha1 '6ab865b92db92cf2c49a332010f99566178d25cf'
+  bottle 'https://downloads.sf.net/project/machomebrew/Bottles/qt-4.8.0-bottle.tar.gz'
+  bottle_sha1 '2bfe00c5112b0d2a680cd01144701f8937846096'
 
   head 'git://gitorious.org/qt/qt.git', :branch => 'master'
 
@@ -24,6 +24,13 @@ class Qt < Formula
   depends_on 'sqlite' if MacOS.leopard?
 
   def install
+    # Needed for Qt 4.8.0 due to attempting to link moc with gcc.
+    ENV['LD'] = ENV['CXX']
+
+    inreplace "src/corelib/tools/qstring.cpp",
+      "# ifdef __SSE4_2__",
+      "# if defined(__SSE4_2__) && defined(_SIDD_UWORD_OPS)"
+
     ENV.x11
     ENV.append "CXXFLAGS", "-fvisibility=hidden"
     args = ["-prefix", prefix,
@@ -89,9 +96,19 @@ class Qt < Formula
     cd prefix do
       ln_s lib, "Frameworks"
     end
+
+    # The pkg-config files installed suggest that geaders can be found in the
+    # `include` directory. Make this so by creating symlinks from `include` to
+    # the Frameworks' Headers folders.
+    Pathname.glob(lib + '*.framework/Headers').each do |path|
+      framework_name = File.basename(File.dirname(path), '.framework')
+      ln_s path.realpath, include+framework_name
+    end
   end
 
-  def caveats
-    "We agreed to the Qt opensource license for you.\nIf this is unacceptable you should uninstall."
+  def caveats; <<-EOS.undent
+    We agreed to the Qt opensource license for you.
+    If this is unacceptable you should uninstall.
+    EOS
   end
 end

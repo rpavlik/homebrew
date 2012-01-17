@@ -1,12 +1,12 @@
 require 'formula'
 
 class Redis < Formula
-  url 'http://redis.googlecode.com/files/redis-2.2.11.tar.gz'
-  head 'https://github.com/antirez/redis.git'
+  url 'http://redis.googlecode.com/files/redis-2.4.6.tar.gz'
+  head 'https://github.com/antirez/redis.git', :branch => 'unstable'
   homepage 'http://redis.io/'
-  md5 '5501c90ca02ae7ea93c34f067b3e0619'
+  md5 '41d394074bcde762872ecb5506f35aee'
 
-  fails_with_llvm "Fails with \"reference out of range from _linenoise\""
+  fails_with_llvm 'Fails with "reference out of range from _linenoise"', :build => 2334
 
   def install
     # Architecture isn't detected correctly on 32bit Snow Leopard without help
@@ -31,6 +31,7 @@ class Redis < Formula
     doc.install Dir["doc/*"]
     etc.install "redis.conf"
     (prefix+'io.redis.redis-server.plist').write startup_plist
+    (prefix+'io.redis.redis-server.plist').chmod 0644
   end
 
   def caveats

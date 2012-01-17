@@ -1,15 +1,11 @@
 require 'formula'
 
 class Tor < Formula
-  url 'https://www.torproject.org/dist/tor-0.2.1.30.tar.gz'
+  url 'https://www.torproject.org/dist/tor-0.2.2.35.tar.gz'
   homepage 'https://www.torproject.org/'
-  md5 '6c6d61e053af5969a245d025c4cfce9d'
+  md5 'dcecf699c4b929319d5f1ce0358d4835'
 
   depends_on 'libevent'
-
-  def patches
-    {:p0 => 'https://gist.github.com/raw/344132/d27d1cd3042d7c58120688d79ed25a2fc959a2de/config.guess-x86_64patch.diff' }
-  end
 
   def install
     system "./configure", "--disable-debug", "--disable-dependency-tracking",
@@ -17,6 +13,7 @@ class Tor < Formula
     system "make install"
 
     (prefix+'org.tor.plist').write startup_plist
+    (prefix+'org.tor.plist').chmod 0644
   end
 
   def startup_plist

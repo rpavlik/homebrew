@@ -1,8 +1,9 @@
 require 'formula'
 
 class OfflineImap < Formula
-  url "https://github.com/nicolas33/offlineimap.git", :tag => 'v6.3.2.1'
-  version '6.3.2.1'
+  url "https://github.com/downloads/spaetz/offlineimap/offlineimap-v6.5.2.tar.gz"
+  md5 '0ccb6b7e4723a414ea50abb27450a56f'
+  head "https://github.com/spaetz/offlineimap.git"
   homepage "http://offlineimap.org/"
 
   def install
@@ -12,6 +13,7 @@ class OfflineImap < Formula
     bin.mkpath
     ln_s libexec+'offlineimap.py', bin+'offlineimap'
     (prefix+'org.offlineimap.plist').write startup_plist
+    (prefix+'org.offlineimap.plist').chmod 0644
   end
 
   def caveats; <<-EOS.undent

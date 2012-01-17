@@ -1,12 +1,13 @@
 require 'formula'
 
 class Fiwalk < Formula
-  url 'http://afflib.org/downloads/fiwalk-0.6.14.tar.gz'
+  url 'http://afflib.org/downloads/fiwalk-0.6.16.tar.gz'
   homepage 'http://afflib.org/software/fiwalk'
-  md5 '606e77de12dbd7fa6a14d34cbefb032f'
+  md5 '282925766aa0e7ca7c5b894d28e0c9ee'
 
   depends_on 'sleuthkit'
-  depends_on 'afflib'
+  depends_on 'afflib' => :optional
+  depends_on 'exiv2' => :optional
 
   def install
     system "./configure", "--disable-dependency-tracking",

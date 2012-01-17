@@ -1,10 +1,10 @@
 require 'formula'
 
 class PerforceServer < Formula
-  url 'http://filehost.perforce.com/perforce/r10.1/bin.darwin80u/p4d'
+  url 'http://filehost.perforce.com/perforce/r11.1/bin.darwin90u/p4d'
   homepage 'http://www.perforce.com/'
-  md5 '27660df45ac5008891e17868063de6b7'
-  version '2010.1.278506'
+  md5 '8ef3580d6e8d2575ae910eec002c8c55'
+  version '2011.1.397313'
 
   def install
     bin.install 'p4d'

@@ -20,6 +20,6 @@ module Homebrew extend self
         keg.directory? and not keg.subdirs.empty?
       end
     end
-    puts uses.sort
+    puts_columns uses.map{|f| f.to_s}.sort
   end
 end
