@@ -5,6 +5,7 @@ class Abiword < Formula
   homepage 'http://www.abisource.com/'
   md5 'f883b0a7f26229a9c66fd6a1a94381aa'
 
+  depends_on 'wv'
   depends_on 'jpeg'
   depends_on 'fribidi'
   depends_on 'libgsf'
