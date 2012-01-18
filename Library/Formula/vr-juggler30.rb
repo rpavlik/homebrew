@@ -1,6 +1,6 @@
 require 'formula'
 
-class Vrjuggler30 <Formula
+class VrJuggler30 <Formula
   head 'git://github.com/rpavlik/vrjuggler.git', :tag => 'df730630f3291c4c9a8eb0e16858d8e99fcc036a'
   homepage 'http://code.google.com/p/vrjuggler/'
   url 'http://vrjuggler.googlecode.com/files/vrjuggler-3.0.1-1-src.tar.bz2'
