@@ -1,11 +1,11 @@
 require 'formula'
 
 class Vrjuggler30 <Formula
-  head 'http://vrjuggler.googlecode.com/svn/juggler/branches/3.0/'
+  head 'git://github.com/rpavlik/vrjuggler.git', :tag => 'df730630f3291c4c9a8eb0e16858d8e99fcc036a'
   homepage 'http://code.google.com/p/vrjuggler/'
-  url 'http://vrjuggler.googlecode.com/files/vrjuggler-3.0.0-1-src.tar.bz2'
-  sha1 '80d724b88afe0820a8eda9f293729eb050182830'
-  version '3.0.0-1'
+  url 'http://vrjuggler.googlecode.com/files/vrjuggler-3.0.1-1-src.tar.bz2'
+  sha1 '259975c83b9dc0cfb76afa1c740f0590025e16a6'
+  version '3.0.1-1'
 
   depends_on 'boost'
   depends_on 'cppdom'
